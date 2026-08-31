@@ -5,13 +5,15 @@ import { applicationConfig } from "../config/application.config.ts";
 
 mkdirSync(dirname(applicationConfig.databasePath), { recursive: true });
 
-export const db = new Database(applicationConfig.databasePath, { create: true });
+export const db = new Database(applicationConfig.databasePath, {
+	create: true,
+});
 db.exec("PRAGMA journal_mode = WAL;");
 db.exec("PRAGMA foreign_keys = ON;");
 db.exec("PRAGMA busy_timeout = 5000;");
 
 export function initializeDatabase(): void {
-  db.exec(`
+	db.exec(`
     CREATE TABLE IF NOT EXISTS generation_batches (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       public_id TEXT NOT NULL UNIQUE,
@@ -46,3 +48,6 @@ export function initializeDatabase(): void {
       ON generation_batches(created_at DESC);
   `);
 }
+
+// Ensure the database schema exists when the module is imported.
+initializeDatabase();
