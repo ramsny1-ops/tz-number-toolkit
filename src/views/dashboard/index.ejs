@@ -1,0 +1,74 @@
+<%- include('../partials/head', { title, appName, page, apiBase }) %>
+
+<section class="welcome-panel panel">
+  <div class="cyber-scan" aria-hidden="true"></div>
+  <div class="welcome-copy">
+    <span class="pill">System ready · Tanzania mobile registry</span>
+    <h2>Welcome to your number intelligence workspace.</h2>
+    <p>Generate synthetic Tanzanian mobile datasets, inspect prefix allocation, analyze bulk numbers, and keep every saved batch traceable from one clean dashboard.</p>
+    <div class="welcome-actions">
+      <a class="button primary large" href="/generator">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 3v18M3 12h18"/></svg>Generate numbers
+      </a>
+      <button class="button large" type="button" data-open-modal="quickDetectorModal">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Detect number
+      </button>
+    </div>
+  </div>
+
+  <div class="welcome-terminal" aria-label="System status">
+    <div class="terminal-head"><span class="terminal-status"><span class="status-beacon"></span>Operational</span><span class="muted">API v1</span></div>
+    <div class="terminal-lines">
+      <div class="terminal-line"><span>numbering.engine</span><span>READY</span></div>
+      <div class="terminal-line"><span>sqlite.history</span><span>CONNECTED</span></div>
+      <div class="terminal-line"><span>active.allocations</span><span><%= networks.filter(n => n.generationEnabled).length %></span></div>
+      <div class="terminal-line"><span>synthetic.records</span><span><%= statistics.totalGenerated.toLocaleString() %></span></div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-grid">
+  <article class="stat-card"><span>Total generated</span><strong><%= statistics.totalGenerated.toLocaleString() %></strong><small>Persisted records</small></article>
+  <article class="stat-card"><span>Generated today</span><strong><%= statistics.todayGenerated.toLocaleString() %></strong><small>Current database day</small></article>
+  <article class="stat-card"><span>Saved batches</span><strong><%= statistics.totalBatches.toLocaleString() %></strong><small>Generation history</small></article>
+  <article class="stat-card"><span>Active networks</span><strong><%= networks.filter(n => n.generationEnabled).length %></strong><small>Generation enabled</small></article>
+</div>
+
+<section>
+  <div class="section-heading"><div><span class="eyebrow">Workspace</span><h3>Open what you need</h3></div></div>
+  <div class="dashboard-actions">
+    <button class="action-card" type="button" data-open-modal="recentActivityModal" data-history-limit="8">
+      <span class="action-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 18V6m5 12v-8m5 8V3m5 15v-5"/></svg></span>
+      <h3>Recent activity</h3>
+      <p>Review the newest generation batches in a focused table without leaving the dashboard.</p>
+      <span class="action-card-meta"><span>Latest batches</span><strong>Open modal</strong></span>
+    </button>
+
+    <button class="action-card" type="button" data-open-modal="historyModal" data-history-limit="100">
+      <span class="action-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 3-6.7L3 8m0-5v5h5M12 7v5l3 2"/></svg></span>
+      <h3>History</h3>
+      <p>Search through saved generation batches and open individual records for export or inspection.</p>
+      <span class="action-card-meta"><span><%= statistics.totalBatches.toLocaleString() %> saved</span><strong>Open modal</strong></span>
+    </button>
+
+    <button class="action-card" type="button" data-open-modal="networkAllocationModal">
+      <span class="action-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M5 17a10 10 0 0 1 14 0M8 14a6 6 0 0 1 8 0m-5 3a2 2 0 0 1 2 0M12 20h.01"/></svg></span>
+      <h3>Network allocation</h3>
+      <p>Inspect the configured Tanzania mobile brands, legal operators, prefixes, and operational metadata.</p>
+      <span class="action-card-meta"><span><%= networks.length %> registry entries</span><strong>Open modal</strong></span>
+    </button>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="section-heading"><div><span class="eyebrow">Quick reference</span><h3>Versioned API</h3></div><a class="button ghost" href="/developer">Developer docs</a></div>
+  <div class="route-list">
+    <code>POST <%= apiBase %>/numbers/generate</code>
+    <code>POST <%= apiBase %>/numbers/detect</code>
+    <code>POST <%= apiBase %>/numbers/analyze</code>
+    <code>GET&nbsp; <%= apiBase %>/generations</code>
+  </div>
+</section>
+
+<% const pageScript = null; %>
+<%- include('../partials/foot', { apiBase, pageScript }) %>

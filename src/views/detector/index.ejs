@@ -1,0 +1,9 @@
+<%- include('../partials/head', { title, appName, page, apiBase }) %>
+<section class="panel inspector-panel">
+  <div class="section-heading"><div><span class="eyebrow">Number inspector</span><h3>Detect original prefix allocation</h3></div></div>
+  <form id="detectorForm" class="inline-form"><input id="phoneNumber" autocomplete="off" placeholder="0689123456 or +255689123456"><button class="button primary" type="submit">Analyze</button></form>
+  <p class="muted">Supports local, +255, compact 255 and national-significant formats.</p>
+</section>
+<section class="panel hidden" id="inspectionPanel"><div id="inspectionResult"></div></section>
+<% const pageScript = 'detector'; %>
+<%- include('../partials/foot', { apiBase, pageScript }) %>

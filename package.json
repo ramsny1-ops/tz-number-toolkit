@@ -1,0 +1,35 @@
+{
+  "name": "tz-number-toolkit",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A full-stack Tanzania mobile number toolkit for generating synthetic datasets, detecting prefix allocations, validating, analyzing, saving and exporting numbers.",
+  "scripts": {
+    "dev": "bun --watch src/server.ts",
+    "start": "bun src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "test:core": "bun test tests/core.test.ts",
+    "doctor": "bun scripts/doctor.ts",
+    "db:reset": "bun scripts/reset-db.ts"
+  },
+  "dependencies": {
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.1",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.22",
+    "@types/compression": "^1.8.1",
+    "@types/cors": "^2.8.19",
+    "@types/ejs": "^3.1.5",
+    "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.10",
+    "typescript": "^5.9.2"
+  }
+}

@@ -1,0 +1,17 @@
+<%- include('../partials/head', { title, appName, page, apiBase }) %>
+<section class="panel">
+  <div class="section-heading"><div><span class="eyebrow">Numbering registry</span><h3>Tanzania mobile allocations</h3></div></div>
+  <div class="network-grid">
+    <% networks.forEach(network => { %>
+      <article class="network-card <%= network.generationEnabled ? '' : 'disabled-card' %>">
+        <div class="network-card-head"><div><span class="status-dot <%= network.operational ? 'online' : 'offline' %>"></span><strong><%= network.brand %></strong></div><span class="pill"><%= network.generationEnabled ? 'Generation enabled' : 'Metadata only' %></span></div>
+        <p><%= network.operator %></p>
+        <% if (network.legacyNames.length) { %><small>Legacy name: <%= network.legacyNames.join(', ') %></small><% } %>
+        <div class="prefixes"><% network.prefixes.forEach(prefix => { %><span><%= prefix %></span><% }) %></div>
+      </article>
+    <% }) %>
+  </div>
+  <div class="notice">Registry data should be rechecked against current official TCRA publications before regulatory or production-critical use. Mobile Number Portability means a prefix is not guaranteed to indicate the current carrier.</div>
+</section>
+<% const pageScript = null; %>
+<%- include('../partials/foot', { apiBase, pageScript }) %>

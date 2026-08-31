@@ -1,0 +1,35 @@
+@base = http://127.0.0.1:9367/api/v1
+
+### Health
+GET {{base}}/health
+
+### Networks
+GET {{base}}/networks
+
+### Generate Airtel
+POST {{base}}/numbers/generate
+Content-Type: application/json
+
+{
+  "network": "airtel",
+  "quantity": 20,
+  "format": "international",
+  "mode": "random",
+  "save": true
+}
+
+### Detect
+POST {{base}}/numbers/detect
+Content-Type: application/json
+
+{
+  "phoneNumber": "0689123456"
+}
+
+### Analyze
+POST {{base}}/numbers/analyze
+Content-Type: application/json
+
+{
+  "numbers": ["0689123456", "0712345678", "0734928123", "123"]
+}

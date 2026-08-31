@@ -1,0 +1,11 @@
+<%- include('../partials/head', { title, appName, page, apiBase }) %>
+<div class="two-column">
+  <section class="panel"><span class="eyebrow">Runtime</span><h3>Environment</h3><div class="detail-grid"><div><span>API base</span><strong><%= apiBase %></strong></div><div><span>Runtime</span><strong>Bun</strong></div><div><span>Database</span><strong>SQLite</strong></div><div><span>API version</span><strong><%= config.apiVersion %></strong></div><div><span>Generation limit</span><strong><%= config.maxGenerationSize.toLocaleString() %></strong></div><div><span>Analysis limit</span><strong><%= config.maxAnalysisSize.toLocaleString() %></strong></div></div></section>
+  <section class="panel"><span class="eyebrow">Health</span><h3>Check API</h3><pre><code>curl <%= config.appOrigin %><%= apiBase %>/health</code></pre><button class="button" data-copy="curl <%= config.appOrigin %><%= apiBase %>/health">Copy command</button></section>
+</div>
+<section class="panel"><span class="eyebrow">Examples</span><h3>Generate Airtel data</h3><pre><code>curl -X POST <%= config.appOrigin %><%= apiBase %>/numbers/generate \\
+  -H 'Content-Type: application/json' \\
+  -d '{"network":"airtel","quantity":20,"format":"international","mode":"random","save":true}'</code></pre></section>
+<section class="panel"><span class="eyebrow">Routes</span><h3>API surface</h3><div class="route-list"><code>GET    <%= apiBase %>/health</code><code>GET    <%= apiBase %>/networks</code><code>POST   <%= apiBase %>/numbers/generate</code><code>POST   <%= apiBase %>/numbers/detect</code><code>POST   <%= apiBase %>/numbers/validate</code><code>POST   <%= apiBase %>/numbers/normalize</code><code>POST   <%= apiBase %>/numbers/analyze</code><code>GET    <%= apiBase %>/generations</code><code>GET    <%= apiBase %>/statistics</code></div></section>
+<% const pageScript = null; %>
+<%- include('../partials/foot', { apiBase, pageScript }) %>

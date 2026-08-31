@@ -1,0 +1,74 @@
+    </section>
+  </main>
+</div>
+
+<% const modalNetworks = typeof networks !== 'undefined' ? networks : []; %>
+
+<div class="modal-backdrop" id="quickDetectorModal" role="dialog" aria-modal="true" aria-labelledby="quickDetectorTitle" hidden>
+  <section class="modal small">
+    <header class="modal-header">
+      <div class="modal-header-copy"><span class="eyebrow">Quick inspector</span><h2 id="quickDetectorTitle">Detect network allocation</h2></div>
+      <button class="modal-close" type="button" data-close-modal aria-label="Close detector"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </header>
+    <div class="modal-body">
+      <form id="quickDetectorForm" class="form-grid">
+        <label>Phone number<input id="quickDetectorInput" autocomplete="off" placeholder="0689123456 or +255689123456"></label>
+        <button class="button primary large" type="submit">Analyze number</button>
+      </form>
+      <div id="quickDetectorResult" style="margin-top:16px"></div>
+    </div>
+    <footer class="modal-footer"><a class="button ghost" href="/detector">Open full detector</a></footer>
+  </section>
+</div>
+
+<div class="modal-backdrop" id="networkAllocationModal" role="dialog" aria-modal="true" aria-labelledby="networkAllocationTitle" hidden>
+  <section class="modal large">
+    <header class="modal-header">
+      <div class="modal-header-copy"><span class="eyebrow">Tanzania registry</span><h2 id="networkAllocationTitle">Network allocation</h2></div>
+      <button class="modal-close" type="button" data-close-modal aria-label="Close network allocation"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </header>
+    <div class="modal-body">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Brand</th><th>Operator</th><th>Prefixes</th><th>Status</th></tr></thead>
+          <tbody>
+          <% modalNetworks.forEach(network => { %>
+            <tr><td><strong><%= network.brand %></strong></td><td><%= network.operator %></td><td><code><%= network.prefixes.join(' · ') %></code></td><td><%= network.operational ? 'Operational' : 'Not operational' %></td></tr>
+          <% }) %>
+          <% if (!modalNetworks.length) { %><tr><td colspan="4" class="muted">Network registry unavailable on this page.</td></tr><% } %>
+          </tbody>
+        </table>
+      </div>
+      <div class="notice">Allocation is prefix-based metadata. Mobile Number Portability means the current carrier can differ from the original allocation.</div>
+    </div>
+    <footer class="modal-footer"><a class="button ghost" href="/networks">Open allocation page</a></footer>
+  </section>
+</div>
+
+<div class="modal-backdrop" id="recentActivityModal" role="dialog" aria-modal="true" aria-labelledby="recentActivityTitle" hidden>
+  <section class="modal large">
+    <header class="modal-header">
+      <div class="modal-header-copy"><span class="eyebrow">Recent activity</span><h2 id="recentActivityTitle">Latest generation batches</h2></div>
+      <button class="modal-close" type="button" data-close-modal aria-label="Close recent activity"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </header>
+    <div class="modal-body" id="recentActivityBody"><div class="modal-loading"><div><span class="spinner"></span><span>Reading recent activity</span></div></div></div>
+  </section>
+</div>
+
+<div class="modal-backdrop" id="historyModal" role="dialog" aria-modal="true" aria-labelledby="historyModalTitle" hidden>
+  <section class="modal large">
+    <header class="modal-header">
+      <div class="modal-header-copy"><span class="eyebrow">SQLite history</span><h2 id="historyModalTitle">Generation history</h2></div>
+      <button class="modal-close" type="button" data-close-modal aria-label="Close history"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </header>
+    <div class="modal-body" id="historyModalBody"><div class="modal-loading"><div><span class="spinner"></span><span>Loading history</span></div></div></div>
+    <footer class="modal-footer"><a class="button ghost" href="/history">Open full history</a></footer>
+  </section>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.APP = { apiBase: <%- JSON.stringify(apiBase) %> };</script>
+<script src="/js/app.js" defer></script>
+<% if (typeof pageScript !== 'undefined' && pageScript) { %><script src="/js/<%= pageScript %>.js" defer></script><% } %>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<%- include('../partials/head', { title, appName, page, apiBase }) %>
+<div class="two-column analyzer-layout">
+  <section class="panel">
+    <div class="section-heading"><div><span class="eyebrow">Bulk input</span><h3>Paste one number per line</h3></div></div>
+    <textarea id="bulkNumbers" class="bulk-input" placeholder="0689123456&#10;0712345678&#10;+255734928123"></textarea>
+    <div class="actions"><button class="button primary" id="analyzeButton">Analyze dataset</button><button class="button" id="clearAnalyzer">Clear</button></div>
+  </section>
+  <section class="panel">
+    <div class="section-heading"><div><span class="eyebrow">Summary</span><h3>Analysis result</h3></div></div>
+    <div id="analysisSummary" class="empty-state">Paste numbers to see validity and allocation distribution.</div>
+  </section>
+</div>
+<section class="panel hidden" id="analysisDetails"><div class="section-heading"><h3>Detailed results</h3></div><div id="analysisTable"></div></section>
+<% const pageScript = 'analyzer'; %>
+<%- include('../partials/foot', { apiBase, pageScript }) %>

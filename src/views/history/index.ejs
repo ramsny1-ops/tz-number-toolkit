@@ -1,0 +1,10 @@
+<%- include('../partials/head', { title, appName, page, apiBase }) %>
+<section class="panel">
+  <div class="section-heading"><div><span class="eyebrow">SQLite history</span><h3>Saved generation batches</h3></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Batch</th><th>Network</th><th>Quantity</th><th>Mode</th><th>Prefix</th><th>Created</th><th></th></tr></thead><tbody>
+  <% if (!batches.length) { %><tr><td colspan="7" class="muted">No saved batches yet.</td></tr><% } %>
+  <% batches.forEach(batch => { %><tr><td><a href="/history/<%= batch.public_id %>"><%= batch.public_id %></a></td><td><%= batch.network %></td><td><%= batch.quantity.toLocaleString() %></td><td><%= batch.mode %></td><td><%= batch.prefix || 'Any' %></td><td><%= new Date(batch.created_at).toLocaleString() %></td><td><a href="/history/<%= batch.public_id %>">Open</a></td></tr><% }) %>
+  </tbody></table></div>
+</section>
+<% const pageScript = null; %>
+<%- include('../partials/foot', { apiBase, pageScript }) %>

@@ -1,0 +1,8 @@
+<%- include('../partials/head', { title, appName, page, apiBase }) %>
+<section class="panel">
+  <div class="section-heading"><div><span class="eyebrow">Saved batch</span><h3><%= batch.public_id %></h3></div><div class="actions"><a class="button" href="<%= apiBase %>/generations/<%= batch.public_id %>/export/csv">CSV</a><a class="button" href="<%= apiBase %>/generations/<%= batch.public_id %>/export/json">JSON</a><a class="button" href="<%= apiBase %>/generations/<%= batch.public_id %>/export/txt">TXT</a></div></div>
+  <div class="detail-grid"><div><span>Network</span><strong><%= batch.network %></strong></div><div><span>Quantity</span><strong><%= batch.quantity %></strong></div><div><span>Mode</span><strong><%= batch.mode %></strong></div><div><span>Format</span><strong><%= batch.format %></strong></div><div><span>Prefix</span><strong><%= batch.prefix || 'Any' %></strong></div><div><span>Created</span><strong><%= new Date(batch.created_at).toLocaleString() %></strong></div></div>
+</section>
+<section class="panel"><div class="section-heading"><h3>Numbers <small class="muted">showing up to 500</small></h3></div><div class="number-list"><% numbers.forEach(row => { %><div class="number-row"><code><%= row.normalized_number %></code><span><%= row.network %> · <%= row.prefix %></span><button class="copy-one" data-copy="<%= row.normalized_number %>">Copy</button></div><% }) %></div></section>
+<% const pageScript = null; %>
+<%- include('../partials/foot', { apiBase, pageScript }) %>

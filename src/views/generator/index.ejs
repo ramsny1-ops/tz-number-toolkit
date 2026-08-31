@@ -1,0 +1,54 @@
+<%- include('../partials/head', { title, appName, page, apiBase }) %>
+<div class="workspace-grid">
+  <section class="panel sticky-panel">
+    <div class="section-heading"><div><span class="eyebrow">Synthetic dataset</span><h3>Generation controls</h3></div></div>
+    <form id="generatorForm" class="form-grid">
+      <label>Network
+        <input id="network" name="network" type="hidden" value="airtel">
+        <button class="network-selector" id="networkSelector" type="button" data-open-modal="generatorNetworkModal">
+          <span class="network-selector-main"><span class="network-selector-badge" id="selectedNetworkBadge">AT</span><span class="network-selector-copy"><strong id="selectedNetworkName">Airtel</strong><small id="selectedNetworkMeta">Choose allocation</small></span></span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </label>
+      <label>Quantity<div class="number-stepper"><button type="button" data-step="-10">-10</button><input id="quantity" type="number" min="1" max="10000" value="20"><button type="button" data-step="10">+10</button></div></label>
+      <label>Format<select id="format"><option value="international">+255 international</option><option value="local">0 local</option><option value="compact">255 compact</option></select></label>
+      <label>Mode<select id="mode"><option value="random">Random</option><option value="sequential">Sequential</option><option value="seeded">Seeded deterministic</option></select></label>
+      <label id="prefixGroup">Prefix<select id="prefix"><option value="">Any network prefix</option></select></label>
+      <label id="seedGroup" class="hidden">Seed<input id="seed" maxlength="100" placeholder="checkout-tests-v1"></label>
+      <label id="startGroup" class="hidden">Sequence start<input id="startAt" type="number" min="0" max="9999999" value="0"></label>
+      <label class="check-row"><input id="preventPreviouslyGenerated" type="checkbox"> Avoid numbers already saved in this database</label>
+      <div id="mixedWeights" class="hidden weight-grid">
+        <% networks.filter(n => n.generationEnabled).forEach(network => { %><label><%= network.brand %><input type="number" min="0" max="1000" value="<%= network.slug === 'airtel' ? 30 : network.slug === 'vodacom' ? 25 : network.slug === 'yas' ? 25 : network.slug === 'halotel' ? 15 : 5 %>" data-weight="<%= network.slug %>"></label><% }) %>
+      </div>
+      <button class="button primary large" id="generateButton" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 3v18M3 12h18"/></svg>Generate numbers</button>
+    </form>
+    <div class="notice">Generated numbers are synthetic test values. A generated value may coincidentally match a real subscriber number.</div>
+  </section>
+
+  <section class="panel results-panel">
+    <div class="section-heading"><div><span class="eyebrow">Result</span><h3 id="resultTitle">No batch generated</h3></div><div class="actions"><button class="button" id="copyAll" disabled>Copy all</button><a class="button hidden" id="downloadCsv">CSV</a><a class="button hidden" id="downloadJson">JSON</a><a class="button hidden" id="downloadTxt">TXT</a></div></div>
+    <div id="generationMeta" class="result-meta muted">Choose a network and quantity, then generate.</div>
+    <div id="numbersList" class="number-list empty-state">Generated numbers will appear here.</div>
+  </section>
+</div>
+
+<div class="modal-backdrop" id="generatorNetworkModal" role="dialog" aria-modal="true" aria-labelledby="generatorNetworkTitle" hidden>
+  <section class="modal small">
+    <header class="modal-header">
+      <div class="modal-header-copy"><span class="eyebrow">Generation source</span><h2 id="generatorNetworkTitle">Choose network allocation</h2></div>
+      <button class="modal-close" type="button" data-close-modal aria-label="Close network selector"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </header>
+    <div class="modal-body">
+      <div class="modal-network-grid" id="generatorNetworkChoices">
+        <% networks.filter(n => n.generationEnabled).forEach(network => { %>
+          <button class="modal-network-choice" type="button" data-select-network="<%= network.slug %>"><strong><%= network.brand %></strong><small><%= network.prefixes.join(' · ') %><br><%= network.operator %></small></button>
+        <% }) %>
+        <button class="modal-network-choice" type="button" data-select-network="mixed"><strong>Mixed network</strong><small>Weighted generation across all enabled allocations.</small></button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>window.NETWORKS = <%- JSON.stringify(networks.filter(n => n.generationEnabled)) %>;</script>
+<% const pageScript = 'generator'; %>
+<%- include('../partials/foot', { apiBase, pageScript }) %>
